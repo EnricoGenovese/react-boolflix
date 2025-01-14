@@ -10,8 +10,9 @@ const GlobalContext = createContext();
 const GlobalProvider = ({ children }) => {
 
     const [movies, setMovies] = useState([]);
+    const [tvSeries, setTvSeries] = useState([])
 
-    function getData(query) {
+    function getMoviesData(query) {
         axios.get(apiUrl + "/search/movie", {
             params: {
                 api_key: apiKey,
@@ -29,11 +30,30 @@ const GlobalProvider = ({ children }) => {
         })
     }
 
+    function getSeriesData(query) {
+        axios.get(apiUrl + "/search/tv", {
+            params: {
+                api_key: apiKey,
+                query,
+                language: "it-IT",
+            },
+        }).then((res) => {
+            console.log(res.data.results)
+            setTvSeries(res.data.results);
+
+        }).catch((error) => {
+            console.log(error)
+        }).finally(() => {
+            console.log("Done");
+        })
+    }
+
     function search(query) {
-        getData(query);
+        getMoviesData(query);
+        getSeriesData(query)
     };
 
-    const data = { movies, search }
+    const data = { movies, tvSeries, search }
 
     return (
         <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>
