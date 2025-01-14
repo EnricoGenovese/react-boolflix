@@ -8,11 +8,25 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
+
     const [movies, setMovies] = useState([]);
 
-    // useEffect(() => {
-    //     getData()
-    // }, []);
+    function getData(query) {
+        axios.get(apiUrl + "/search/movie", {
+            params: {
+                api_key: apiKey,
+                query,
+            },
+        }).then((res) => {
+            console.log(res.data.results)
+            setMovies(res.data.results);
+
+        }).catch((error) => {
+            console.log(error)
+        }).finally(() => {
+            console.log("Done");
+        })
+    }
 
     function search(query) {
         getData(query);
@@ -26,22 +40,6 @@ const GlobalProvider = ({ children }) => {
 };
 
 
-function getData(query) {
-    axios.get(apiUrl + "/search/movie", {
-        params: {
-            api_key: apiKey,
-            query
-        },
-    }).then((res) => {
-        // console.log(res.data.results)
-        setMovies(res.data.response);
-
-    }).catch((error) => {
-        console.log(error)
-    }).finally(() => {
-        console.log("Done");
-    })
-}
 
 
 function useGlobalContext() {
