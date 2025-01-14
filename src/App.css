@@ -29,6 +29,8 @@ header {
 
 main {
   position: relative;
+  top: 0;
+  left: 0;
   background-color: var(--bg-main);
   color: var(--text-main);
   columns: var(--text-main);
@@ -38,4 +40,26 @@ main {
 h1 {
   color: var(--text-header);
   text-transform: uppercase;
+}
+
+.card-description {
+  background-color: var(--bg-header);
+  color: var(--text-main);
+  display: none;
+}
+
+.card-img-top:hover {
+  cursor: pointer;
+}
+
+.card-description:hover {
+  cursor: pointer;
+}
+
+.card:hover .card-description {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  z-index: 1000;
 }

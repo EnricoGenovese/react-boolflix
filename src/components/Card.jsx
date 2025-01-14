@@ -14,11 +14,14 @@ export default function Card() {
                 <div className="row card-deck">
                     {movies.map((movie) =>
                     (
-                        <div className="col-12 col-md-4 col-lg-3 m-3" key={movie.id} >
-                            <div className="card h-100" >
-                                <img src={imgPath + movie.poster_path} alt={movie.title} />
-                                <h6>{movie.title}</h6>
-                                <p className="text-truncate d-inline-block">{movie.overview}</p>
+                        <div className="col-12 col-md-6 col-lg-3 g-4" key={movie.id} >
+                            <div className="card h-100 position-relative">
+                                <img src={imgPath + movie.poster_path} alt={movie.title}
+                                    className="card-img-top" />
+                                <div className="card-description h-100">
+                                    <h4>{movie.title}</h4>
+                                    <p>{movie.overview}</p>
+                                </div>
                             </div>
                         </div>))
                     }

@@ -16,6 +16,7 @@ const GlobalProvider = ({ children }) => {
             params: {
                 api_key: apiKey,
                 query,
+                language: "it-IT",
             },
         }).then((res) => {
             console.log(res.data.results)
