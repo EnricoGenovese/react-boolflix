@@ -8,39 +8,24 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
-
     const [movies, setMovies] = useState([]);
     const [tvSeries, setTvSeries] = useState([])
 
-    function getMoviesData(query) {
-        axios.get(apiUrl + "/search/movie", {
+    const [searching, setSearching] = useState(false)
+
+    function getData(query, endpoint) {
+        axios.get(apiUrl + "/search/" + endpoint, {
             params: {
                 api_key: apiKey,
                 query,
                 language: "it-IT",
             },
         }).then((res) => {
-            console.log(res.data.results)
-            setMovies(res.data.results);
-
-        }).catch((error) => {
-            console.log(error)
-        }).finally(() => {
-            console.log("Done");
-        })
-    }
-
-    function getSeriesData(query) {
-        axios.get(apiUrl + "/search/tv", {
-            params: {
-                api_key: apiKey,
-                query,
-                language: "it-IT",
-            },
-        }).then((res) => {
-            console.log(res.data.results)
-            setTvSeries(res.data.results);
-
+            if (endpoint === "movie") {
+                setMovies(res.data.results);
+            } else {
+                setTvSeries(res.data.results);
+            }
         }).catch((error) => {
             console.log(error)
         }).finally(() => {
@@ -49,11 +34,19 @@ const GlobalProvider = ({ children }) => {
     }
 
     function search(query) {
-        getMoviesData(query);
-        getSeriesData(query)
+        if (!query) {
+            setMovies([]);
+            setTvSeries([]);
+            setSearching(false)
+        } else {
+            getData(query, "movie");
+            getData(query, "tv");
+            setSearching(true);
+        }
+
     };
 
-    const data = { movies, tvSeries, search }
+    const data = { movies, tvSeries, search, searching }
 
     return (
         <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>

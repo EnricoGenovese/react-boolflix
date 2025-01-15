@@ -70,6 +70,10 @@ h1 {
   width: 70px;
 }
 
+.rating {
+  font-size: 1.2em;
+}
+
 .card-img-top:hover {
   cursor: pointer;
 }

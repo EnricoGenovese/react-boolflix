@@ -1,12 +1,11 @@
-import axios from "axios";
 import { useState } from "react";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 
 export default function Searchbar() {
     const { search } = useGlobalContext();
-    const [query, setQuery] = useState("");
 
+    const [query, setQuery] = useState("");
 
     function handleInput(e) {
         setQuery(e.target.value)
@@ -14,7 +13,12 @@ export default function Searchbar() {
 
     function handleSearch(e) {
         e.preventDefault();
-        search(query)
+        search(query.trim())
+    }
+
+    function searchOnEnter(e) {
+        if (!query) { search("") };
+        if (e.code === "Enter") { search(query) };
     }
 
     return (
@@ -23,7 +27,8 @@ export default function Searchbar() {
                 placeholder="Search here"
                 name="query"
                 id="query"
-                onChange={handleInput} />
+                onChange={handleInput}
+                onKeyUp={searchOnEnter} />
             <button type="submit"
                 name="search"
                 id="search"
