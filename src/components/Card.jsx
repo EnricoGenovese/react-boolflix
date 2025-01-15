@@ -39,8 +39,9 @@ export default function Card({ elem }) {
                     <p className="overview p-1">{overview}</p>
                     <div className="rating text-warning p-1 my-2 text-center">{ratingStars()}</div>
                     <div className="d-flex justify-content-center align-items-center">
-                        <img src={`/images/flags/${flag}`} class="rounded mx-auto d-block" alt={elem.original_language}
-                            className="flag" />
+                        <img src={`/images/flags/${flag}`}
+                            className="rounded mx-auto d-block flag"
+                            alt={elem.original_language} />
                     </div>
 
                 </div>

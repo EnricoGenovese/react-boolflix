@@ -16,7 +16,8 @@ const GlobalProvider = ({ children }) => {
     const [searching, setSearching] = useState(false);
 
     useEffect(() => {
-        getPopular
+        getPopular("movie");
+        getPopular("tv");
     }, []);
 
     function getData(query, endpoint) {
@@ -36,11 +37,12 @@ const GlobalProvider = ({ children }) => {
         }).catch((error) => {
             console.log(error)
         }).finally(() => {
-            console.log("Done");
+            setLoading(false);
         })
     }
 
     function getPopular(endpoint) {
+        setLoading(true)
         axios.get(apiUrl + endpoint + "/popular", {
             params: {
                 api_key: apiKey,
@@ -48,29 +50,26 @@ const GlobalProvider = ({ children }) => {
             },
         }).then((res) => {
             if (endpoint === "movie") {
-                // console.log(res.data)
+                // console.log(res.data.results)
                 setPopularMovies(res.data.results);
             } else {
-                // console.log(res.data)
+                // console.log(res.data.results)
                 setPupularSeries(res.data.results);
             }
         }).catch((error) => {
             console.log(error)
         }).finally(() => {
-            console.log("Done");
+            setLoading(false);
         })
     }
 
     function search(query) {
         if (!query) {
-            getPopular("movie");
-            getPopular("tv");
+
             setMovies([]);
             setTvSeries([]);
-
             setSearching(false)
         } else {
-
             getData(query, "movie");
             getData(query, "tv");
             setSearching(true);
@@ -84,9 +83,6 @@ const GlobalProvider = ({ children }) => {
         <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>
     )
 };
-
-
-
 
 function useGlobalContext() {
     const globalContext = useContext(GlobalContext);
